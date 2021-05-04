@@ -28,10 +28,10 @@ jobs:
           echo POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} >> .env
           
       - name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
-        id: heroku
-        uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0  # use the latest version of the action
+      
+        uses: akhileshns/heroku-deploy@v3.12.12  # use the latest version of the action
         with:
-          email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
+          heroku_email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
           api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
           heroku_app_name: "tb-bot-lab"
           docker_compose_file: './docker-compose.yml' # set the path to the folder where the docker-compose file is located
