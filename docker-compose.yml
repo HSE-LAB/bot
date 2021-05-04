@@ -16,8 +16,8 @@ services:
     restart: always
     ports:
       - 5432:5432
-#     networks:
-#       - botnet
+    networks:
+      - botnet
     volumes:
       - ./postgres:/var/lib/postgresql
 
@@ -26,8 +26,8 @@ services:
     build:
       context: .
     command: python app.py
-#     networks:
-#       - botnet
+    networks:
+      - botnet
     restart: always
     env_file:
       - ".env"
@@ -36,11 +36,9 @@ services:
     # Бот стартует после запуска базы
     depends_on:
       - db
-    links:
-      - "db:database"
 
-# # указываются используемые сети
-# networks:
-#   botnet:
-#     # указывается драйвер сети
-#     driver: bridge
+# указываются используемые сети
+networks:
+  botnet:
+    # указывается драйвер сети
+    driver: bridge
