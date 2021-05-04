@@ -31,9 +31,7 @@ jobs:
       
         uses: akhileshns/heroku-deploy@v3.12.12  # use the latest version of the action
         with:
-          heroku_email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
-          heroku_app_name: "tb-bot-lab"
-          docker_compose_file: './docker-compose.yml' # set the path to the folder where the docker-compose file is located
-          
-#           heroku_apps: '[{"imagename":"postgres","appname":"tg-bot-lab","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
+                  email: ${{ secrets.HEROKU_EMAIL }}
+                  api_key: ${{ secrets.HEROKU_API_KEY }}
+                  docker_compose_file: "./docker-compose.yml"
+                  heroku_apps: '[{"imagename":"tgbot_tgbot","appname":"tg-bot-lab","apptype":"web"}]'
