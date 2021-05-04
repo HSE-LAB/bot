@@ -32,7 +32,7 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12  # use the latest version of the action
         with:
           heroku_email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
-          api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
           heroku_app_name: "tb-bot-lab"
           docker_compose_file: './docker-compose.yml' # set the path to the folder where the docker-compose file is located
           
