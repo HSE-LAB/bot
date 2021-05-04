@@ -36,9 +36,11 @@ services:
     # Бот стартует после запуска базы
     depends_on:
       - db
+    links:
+      - "db:database"
 
-# указываются используемые сети
-networks:
-  botnet:
-    # указывается драйвер сети
-    driver: bridge
+# # указываются используемые сети
+# networks:
+#   botnet:
+#     # указывается драйвер сети
+#     driver: bridge
