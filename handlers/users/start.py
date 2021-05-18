@@ -17,6 +17,8 @@ async def bot_start(message: types.Message):
 
     count = await db.count_users()
 
+    
+    
     # Забираем как список или как словарь
     user_data = list(user)
     user_data_dict = dict(user)
