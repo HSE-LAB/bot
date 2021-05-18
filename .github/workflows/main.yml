@@ -65,10 +65,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            chmod +x ./app.py
             cd /home/${{ secrets.USERNAME }}/bot
-            mkdir docker || true
-            cd /home/${{ secrets.USERNAME }}/bot/docker
+            chmod +x ./app.py
             sudo docker login ghcr.io -u hse-lab -p ${{secrets.PAT}} || true
             sudo docker pull ghcr.io/hse-lab/bot:latest
             sudo docker-compose -f docker-compose.yml.prod up -d
