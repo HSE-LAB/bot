@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "./.env,./docker-compose.yml.prod,./app.py"
+          source: "./.env,./docker-compose.yml.prod,./app.py, ./loader.py"
           target: "bot"
       - name: mkdir
         uses: appleboy/ssh-action@master
