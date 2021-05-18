@@ -29,7 +29,7 @@ services:
       cache_from:
         - ghcr.io/hse-lab/bot:latest
     image: ghcr.io/hse-lab/bot:latest
-    command: python app.py
+    command: sh ./start.sh
     networks:
       - botnet
     restart: always
