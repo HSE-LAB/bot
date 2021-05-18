@@ -29,12 +29,12 @@ jobs:
           
       - name: Log in to GitHub Packages
         run: |
-          sudo docker login ghcr.io -u labs -p ${{ secrets.PAT }} || true
+          sudo docker login ghcr.io -u hse-lab -p ${{ secrets.PAT }} || true
       - name: Pull images
         run: |
-          sudo docker pull ghcr.io/labs/bot:latest || true
+          sudo docker pull ghcr.io/hse-lab/bot:latest || true
       - name: Build images
         run: docker-compose -f docker-compose-ci.yml build
       - name: Push images
         run: |
-          sudo docker push ghcr.io/labs/bot:latest
+          sudo docker push ghcr.io/hse-lab/bot:latest
