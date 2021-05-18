@@ -27,8 +27,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
       cache_from:
-        - ghcr.io/labs/bot:latest
-    image: ghcr.io/labs/bot:latest
+        - ghcr.io/hse-lab/bot:latest
+    image: ghcr.io/hse-lab/bot:latest
     command: python app.py
     networks:
       - botnet
