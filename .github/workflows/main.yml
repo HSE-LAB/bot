@@ -36,4 +36,4 @@ jobs:
         run: docker-compose -f docker-compose-ci.yml build
       - name: Push images
         run: |
-          sudo docker push ghcr.io/labs/bot:latest
+          sudo docker push ghcr.io/labs/bot
