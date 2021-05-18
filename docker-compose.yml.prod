@@ -24,7 +24,7 @@ services:
   tgbot:
     container_name: bot
     image: ghcr.io/hse-lab/bot:latest
-    command: python3 app.py
+    command: sh /src/start.sh
     networks:
       - botnet
     restart: always
