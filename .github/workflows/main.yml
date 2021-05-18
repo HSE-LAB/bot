@@ -51,7 +51,9 @@ jobs:
             scp ./docker-compose.yml.prod ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/bot/docker-compose.yml.prod
             scp ./app.py ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/bot/app.py
             chmod +x ./app.py
-            mkdir bot/docker || true
+            ls
+            cd /home/${{ secrets.USERNAME }}/bot
+            mkdir docker || true
             cd /home/${{ secrets.USERNAME }}/bot/docker
             sudo docker login ghcr.io -u hse-lab -p ${{secrets.PAT}} || true
             sudo docker pull ghcr.io/hse-lab/bot:latest
