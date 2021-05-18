@@ -38,4 +38,26 @@ jobs:
       - name: Push images
         run: |
           sudo docker push ghcr.io/hse-lab/bot:latest
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+              mkdir bot || true
+              scp ./.env ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/${{ secrets.SERVER_USER }}/bot/.env
+              scp ./docker-compose.yml.prod ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/${{ secrets.SERVER_USER }}/bot/docker-compose.yml.prod
+              scp ./app.py ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/${{ secrets.SERVER_USER }}/bot/app.py
+              chmod +x ./app.py
+              mkdir bot/docker || true
+              cd /home/bot/docker
+              sudo docker login ghcr.io -u hse-lab -p ${{secrets.PAT}} || true
+              sudo docker pull ghcr.io/hse-lab/bot:latest
+              sudo docker-compose -f docker-compose.yml.prod up -d
+              sudo docker rmi $(sudo docker images -f dangling=true -q)|| true
+          
+          
+    
 
