@@ -28,8 +28,7 @@ jobs:
           echo POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} >> .env
           
       - name: Log in to GitHub Packages
-        run: |
-          sudo docker login ghcr.io -u HSE-LAB -p ${{ secrets.PAT }} || true
+        run: echo ${{ secrets.PAT }} | docker login -u ${{ github.repository_owner }} --password-stdin ghcr.io/labs
       - name: Pull images
         run: |
           sudo docker pull ghcr.io/labs/bot:latest || true
