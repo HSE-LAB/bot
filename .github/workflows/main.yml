@@ -29,7 +29,7 @@ jobs:
           
       - name: Log in to GitHub Packages
         run: |
-          sudo docker login ghcr.io -u labs -p ${{ secrets.PAT }} || true
+          sudo docker login ghcr.io -u TatyanaKonina -p ${{ secrets.PAT }} || true
       - name: Pull images
         run: |
           sudo docker pull ghcr.io/labs/bot:latest || true
