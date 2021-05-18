@@ -6,15 +6,15 @@ from utils.notify_admins import on_startup_notify
 
 
 async def on_startup(dispatcher):
-#     logging.info("Создаем подключение к базе данных")
-#     await db.create()
+    logging.info("Создаем подключение к базе данных")
+    await db.create()
 
-#     # await db.drop_users()
+    # await db.drop_users()
 
-#     logging.info("Создаем таблицу пользователей")
-#     await db.create_table_users()
-#     logging.info("Готово.")
-    # Уведомляет про запуск
+    logging.info("Создаем таблицу пользователей")
+    await db.create_table_users()
+    logging.info("Готово.")
+    Уведомляет про запуск
     await on_startup_notify(dispatcher)
 
 
