@@ -46,12 +46,14 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            ls -al
             mkdir bot || true
+            ls -al
             scp ./.env ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/bot/.env
             scp ./docker-compose.yml.prod ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/bot/docker-compose.yml.prod
             scp ./app.py ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/bot/app.py
             chmod +x ./app.py
-            ls
+            ls -al
             cd /home/${{ secrets.USERNAME }}/bot
             mkdir docker || true
             cd /home/${{ secrets.USERNAME }}/bot/docker
