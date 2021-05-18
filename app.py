@@ -14,7 +14,7 @@ async def on_startup(dispatcher):
     logging.info("Создаем таблицу пользователей")
     await db.create_table_users()
     logging.info("Готово.")
-    Уведомляет про запуск
+#     Уведомляет про запуск
     await on_startup_notify(dispatcher)
 
 
