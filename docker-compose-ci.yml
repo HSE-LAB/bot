@@ -14,9 +14,8 @@ services:
       - 5432:5432
     networks:
       - botnet
-    volumes:
-      - ./postgres:/var/lib/postgresql
-
+   volumes:
+      - postgres_data:/var/lib/postgresql/data/
   tgbot:
     container_name: bot
     build:
@@ -44,3 +43,6 @@ networks:
   botnet:
     # указывается драйвер сети
     driver: bridge
+    
+volumes:
+  postgres_data:
