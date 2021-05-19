@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo docker pull ghcr.io/hse-lab/bot:latest || true
       - name: Build images
-        run: docker-compose -f docker-compose-ci.yml build
+        run: docker-compose -f docker-compose.yml build
       - name: Push images
         run: |
           sudo docker push ghcr.io/hse-lab/bot:latest
@@ -70,7 +70,7 @@ jobs:
             chmod +x ./app.py
             sudo docker login ghcr.io -u hse-lab -p ${{secrets.PAT}} || true
             sudo docker pull ghcr.io/hse-lab/bot:latest
-            sudo docker-compose -f docker-compose.yml.prod up -d
+            sudo docker-compose -f docker-compose.yml up -d
             sudo docker rmi $(sudo docker images -f dangling=true -q)|| true
               
               
