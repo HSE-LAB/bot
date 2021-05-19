@@ -40,5 +40,5 @@ networks:
   botnet:
     # указывается драйвер сети
     driver: bridge
- volumes:
+volumes:
   postgres_data:
