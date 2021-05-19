@@ -15,7 +15,7 @@ services:
     networks:
       - botnet
     volumes:
-      - ./postgres:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data/
 
   tgbot:
     container_name: bot
@@ -23,7 +23,7 @@ services:
     command: sh /src/start.sh
     networks:
       - botnet
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     volumes:
@@ -39,3 +39,8 @@ networks:
   botnet:
     # указывается драйвер сети
     driver: bridge
+
+
+volumes:
+  postgres_data
+
