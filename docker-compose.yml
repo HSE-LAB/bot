@@ -6,16 +6,20 @@ services:
 # ВНИМАТЕЛЬНО! ВОТ ЭТО НАЗВАНИЕ СЕРВИСА - db - ДОЛЖНО БЫТЬ УКАЗАНО В БОТЕ КАК host В ПОДКЛЮЧЕНИИ К БАЗЕ ИЗ БОТА
 # ТО ЕСТЬ НЕ АЙПИШНИК И НЕ ЛОКАЛХОСТ, А db
     container_name: database
-    image: postgres
+    image: library/postgres
     env_file:
-      - ./.env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    restart: unless-stopped
+       - ".env"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
     ports:
       - 5432:5432
     networks:
       - botnet
+    volumes:
+      - ./postgres:/var/lib/postgresql
 
   tgbot:
     container_name: bot
@@ -30,8 +34,6 @@ services:
     volumes:
       - .:/src
     # Бот стартует после запуска базы
-    ports:
-      - "5000:5000"
     depends_on:
       - db
 
@@ -40,5 +42,3 @@ networks:
   botnet:
     # указывается драйвер сети
     driver: bridge
-volumes:
-  postgres_data:
