@@ -1,2 +1,0 @@
-# tgBot
-lab2

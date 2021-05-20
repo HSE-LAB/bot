@@ -34,8 +34,6 @@ services:
     volumes:
       - .:/src
     # Бот стартует после запуска базы
-    ports:
-      - "5000:5000"
     depends_on:
       - db
 

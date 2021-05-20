@@ -1,9 +1,5 @@
-import logging
-from aiogram.utils.exceptions import (Unauthorized, InvalidQueryID, TelegramAPIError,
-                                      CantDemoteChatCreator, MessageNotModified, MessageToDeleteNotFound,
-                                      MessageTextIsEmpty, RetryAfter,
-                                      CantParseEntities, MessageCantBeDeleted)
 
+import logging
 
 from loader import dp
 
@@ -17,6 +13,10 @@ async def errors_handler(update, exception):
     :param exception:
     :return: stdout logging
     """
+    from aiogram.utils.exceptions import (Unauthorized, InvalidQueryID, TelegramAPIError,
+                                          CantDemoteChatCreator, MessageNotModified, MessageToDeleteNotFound,
+                                          MessageTextIsEmpty, RetryAfter,
+                                          CantParseEntities, MessageCantBeDeleted, BadRequest)
 
     if isinstance(exception, CantDemoteChatCreator):
         logging.debug("Can't demote chat creator")
@@ -54,5 +54,7 @@ async def errors_handler(update, exception):
     if isinstance(exception, CantParseEntities):
         logging.exception(f'CantParseEntities: {exception} \nUpdate: {update}')
         return True
-    
+    if isinstance(exception, BadRequest):
+        logging.exception(f'CantParseEntities: {exception} \nUpdate: {update}')
+        return True
     logging.exception(f'Update: {update} \n{exception}')
