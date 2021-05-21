@@ -50,5 +50,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/${{ secrets.USERNAME }}/bot
+            sudo docker-compose stop
             sudo docker-compose -f docker-compose.yml up --build -d 
             sudo docker rmi $(sudo docker images -f dangling=true -q)|| true
