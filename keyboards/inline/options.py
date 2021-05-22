@@ -23,5 +23,5 @@ async def buy_item(item_name,item_price):
 
 async def make_order():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=f"Сделать заказ",callback_data=f"order")],
+        [InlineKeyboardButton(text=f"✅ Сделать заказ ✅",callback_data=f"order")],
     ])
