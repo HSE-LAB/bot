@@ -12,7 +12,7 @@ async def on_startup(dispatcher):
     logging.info("Создаем подключение к базе данных")
     await db.create()
 
-    # await db.drop_products()
+    await db.drop_products()
 
     logging.info("Создаем таблицу пользователей")
     await db.create_table_users()
