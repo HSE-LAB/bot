@@ -27,14 +27,7 @@ async def empty_query(query: InlineQuery,state: FSMContext):
         reply_markup=await buy_item(item['name'],item['price'])) 
         for item in items
         ]
-    logging.info(cart)
     await query.answer(articles)
     
-# @dp.callback_query_handler(text_contains="category")
-# async def select_category(call: CallbackQuery):
-#     call.answer()
-#     callback_data = call.data
-#     category = callback_data[callback_data.find(":")+1:]
-#     items = [ dict(name=item['name'],price=item['price']) for item in await db.select_products_from_category(category=category)]
-#     await call.message.answer(items)
+
     
