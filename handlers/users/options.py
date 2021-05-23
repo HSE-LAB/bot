@@ -24,7 +24,8 @@ async def show_cart(message: Message, state: FSMContext):
         total += int(cart[item]['price']) * int(cart[item]['quantity'])
         item_string = "".join([item_string,f"{item}: ",
                         f"{cart[item]['price']} * {cart[item]['quantity']}\n"\
-                        f"💵На сумму: {int(cart[item]['price']) * int(cart[item]['quantity'])}💵\n"])
+                        f"😋Вкус: {cart[item]['flavour']}😋\n"\
+                        f"💵На сумму: {int(cart[item]['price']) * int(cart[item]['quantity'])}💵\n\n"])
     txt = f'✨✨✨✨✨✨\n'\
          "В вашей корзине находятся следующие товары:\n"\
          f"{item_string}\n"\

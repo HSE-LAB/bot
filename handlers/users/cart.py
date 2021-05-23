@@ -9,14 +9,15 @@ from keyboards.inline.callback_datas import change_callback
 async def change_cart(call: CallbackQuery,state:FSMContext ):
     cart = (await state.get_data()).get("cart")
     for item in cart:
+        flavour = cart[item]['flavour']
         if item == "Мюсли":
-            await call.message.answer(text=f"🥣 Мюсли 🥣",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
+            await call.message.answer(text=f"🥣 Мюсли🥣\n😋Вкус:{flavour}😋",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
         elif item == "Протеиновый коктель":
-            await call.message.answer(text=f"🥤 Коктель 🥤",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
+            await call.message.answer(text=f"🥤 Коктель🥤\n😋Вкус:{flavour}😋",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
         elif item == "Протеиновый батончик":
-            await call.message.answer(text=f"🍫 Батончик 🍫",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
+            await call.message.answer(text=f"🍫 Батончик 🍫\n😋Вкус:{flavour}😋",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
         elif item == "Пастила":
-            await call.message.answer(text=f"〰️ Пастила 〰️",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
+            await call.message.answer(text=f"〰️ Пастила 〰️\n😋Вкус:{flavour}😋",reply_markup=await change_cart_keyboard(cart[item]['quantity'], item))
 
 
 

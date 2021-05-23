@@ -14,9 +14,9 @@ async def show_categories_buttons(categories: list):
             buttons.append([InlineKeyboardButton(text=f'{category}', switch_inline_query_current_chat=f"{category}")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
-async def buy_item(item_name,item_price):
+async def buy_item(item_name,item_price,flavour):
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=f"Купить {item_name}, 💸{item_price} ",callback_data=f'buy:{item_name}:{item_price}')],
+        [InlineKeyboardButton(text=f"Купить {item_name}, 💸{item_price} ",callback_data=f'buy:{item_name}:{item_price}:{flavour}')],
     ])
 
 

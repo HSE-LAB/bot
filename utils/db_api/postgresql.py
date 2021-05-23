@@ -67,15 +67,15 @@ class Database:
         sql="""
         CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
-        balance INT NOT NULL,CHECK(balance >= 0),
+        flavour VARCHAR(255) NOT NULL,
         price INT NOT NULL,CHECK(price >= 0),
         name VARCHAR(255) NOT NULL,
         img_link VARCHAR(500) NOT NULL,
         category VARCHAR(255) NOT NULL);
-        INSERT INTO products (balance, price, name,img_link, category) VALUES(2,100,'Мюсли','https://stat5.cdnbb8.com/upload/2012/2018-02/plkaz.jpg','Завтраки'); 
-        INSERT INTO products (balance, price, name, img_link,category) VALUES(3,50,'Протеиновый батончик','https://fitbar.ru/images/uploaded/article/5dfa1d92c8542.jpg','Снеки');
-        INSERT INTO products (balance, price, name,img_link, category) VALUES(1,500,'Протеиновый коктель','https://builderbody.ru/wp-content/uploads/2015/09/51.jpg','Напитки');
-        INSERT INTO products (balance, price, name,img_link, category) VALUES(6,70,'Пастила','https://productplanet.ru/wp-content/uploads/2019/02/pastila-anons.jpg','Снеки');  
+        INSERT INTO products (flavour, price, name,img_link, category) VALUES('Клубника',100,'Мюсли','https://stat5.cdnbb8.com/upload/2012/2018-02/plkaz.jpg','Завтраки'); 
+        INSERT INTO products (flavour, price, name, img_link,category) VALUES('Персик',50,'Протеиновый батончик','https://fitbar.ru/images/uploaded/article/5dfa1d92c8542.jpg','Снеки');
+        INSERT INTO products (flavour, price, name,img_link, category) VALUES('Ваниль',500,'Протеиновый коктель','https://builderbody.ru/wp-content/uploads/2015/09/51.jpg','Напитки');
+        INSERT INTO products (flavour, price, name,img_link, category) VALUES('Клубника',70,'Пастила','https://productplanet.ru/wp-content/uploads/2019/02/pastila-anons.jpg','Снеки');  
         """
         await self.execute(sql, execute=True)
 
