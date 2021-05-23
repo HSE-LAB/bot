@@ -16,24 +16,24 @@ async def show_cart(message: Message, state: FSMContext):
     item_string = "\n"
     total = 0
     cart = (await state.get_data()).get("cart")
-    
+    if not len(cart):
+        await message.answer(text="😞Ваша корзина пуста😞\n\n"\
+         "Нажми на '🔍 Каталог' в нижней панели, чтобы посмотреть наши товары😉")
+        return
     for item in cart:
-        logging.info(item)
         total += int(cart[item]['price']) * int(cart[item]['quantity'])
         item_string = "".join([item_string,f"{item}: ",
                         f"{cart[item]['price']} * {cart[item]['quantity']}\n"\
                         f"💵На сумму: {int(cart[item]['price']) * int(cart[item]['quantity'])}💵\n"])
-    logging.info(item_string)
     txt = f'✨✨✨✨✨✨\n'\
          "В вашей корзине находятся следующие товары:\n"\
          f"{item_string}\n"\
          f"Общая сумма заказа: 💲{total}\n"\
          "✨✨✨✨✨✨\n"
-    logging.info(item_string,txt)
     await message.answer(text=txt,reply_markup=await make_order())
     
 
-        
+
 
 
 
