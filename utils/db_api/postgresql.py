@@ -38,11 +38,11 @@ class Database:
                     result = await connection.fetchrow(command, *args)
                 elif execute:
                     result = await connection.execute(command, *args)
-                
+
             return result
-    
+
     async def create_table_orders(self):
-        sql="""
+        sql = """
         CREATE TABLE IF NOT EXISTS orders (
         id SERIAL PRIMARY KEY,
         date VARCHAR(255) NOT NULL ,
@@ -50,21 +50,22 @@ class Database:
         product_id INT NOT NULL,
         sum INT NOT NULL,CHECK(sum >= 0),
         buyer INT NOT NULL,CHECK(buyer >= 0));
-        """ 
+        """
         await self.execute(sql, execute=True)
 
     async def create_table_users(self):
-        sql="""
+        sql = """
         CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
+        telegram_id BIGINT NOT NULL UNIQUE,
         fio VARCHAR(255) NOT NULL,
         address VARCHAR(255) NOT NULL,
         phone VARCHAR(255) NOT NULL);
-        """ 
+        """
         await self.execute(sql, execute=True)
 
     async def create_table_products(self):
-        sql="""
+        sql = """
         CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         flavour VARCHAR(255) NOT NULL,
@@ -79,8 +80,6 @@ class Database:
         """
         await self.execute(sql, execute=True)
 
-    
-
     @staticmethod
     def format_args(sql, parameters: dict):
         sql += " AND ".join([
@@ -90,34 +89,55 @@ class Database:
         return sql, tuple(parameters.values())
 
     async def add_order(self, date, quantity, product_id, sum, buyer):
-        sql = "INSERT INTO users (date, quantity, product_id,sum,buyer) VALUES($1, $2, $3,$4,$5) returning *"
-        return await self.execute(sql, date, quantity, product_id,sum,buyer, fetchrow=True)
+        sql = "INSERT INTO orders (date, quantity, product_id,sum,buyer) VALUES($1, $2, $3,$4,$5) returning *"
+        return await self.execute(sql, date, quantity, product_id, sum, buyer, fetchrow=True)
 
-    
-    async def add_user(self, fio, address, phone):
-        sql = "INSERT INTO users (fio, address, phone) VALUES($1, $2, $3) returning *"
-        return await self.execute(sql, fio, address, phone, fetchrow=True)
+    async def add_user(self, telegram_id, fio, address, phone):
+        sql = "INSERT INTO users (telegram_id, fio, address, phone) VALUES($1, $2, $3, $4) returning *"
+        return await self.execute(sql, telegram_id, fio, address, phone, fetchrow=True)
 
     async def select_all_categories(self):
         sql = 'select distinct category from products'
         return await self.execute(sql, fetch=True)
-    
-    
-    
-    
-    async def select_products_from_category(self,category):
+
+    async def select_products_from_category(self, category):
         sql = f"select distinct * from products where category='{category}'"
         return await self.execute(sql, fetch=True)
 
+    async def select_product_by_id(self, product_id):
+        sql = f"select distinct * from products where products.id='{product_id}'"
+        return await self.execute(sql, fetch=True)
+
+    async def select_product_flavour_by_id(self, product_id):
+        sql = f"select distinct products.flavour from products where products.id='{product_id}'"
+        return await self.execute(sql, fetch=True)
+
+    async def select_product_by_name_flavour(self, name, flavour):
+        sql = f"select distinct products.id from products where products.name='{name}' and products.flavour='{flavour}'"
+        return await self.execute(sql, fetch=True)
+
+    async def select_user_orders(self, telegram_id):
+        sql = f"select orders.date, orders.quantity, orders.product_id, orders.sum, orders.buyer " \
+              f"from orders,users " \
+              f"where orders.buyer = '{telegram_id}' "
+        return await self.execute(sql, fetch=True)
+
+    async def select_user_name_by_tg_id(self, telegram_id):
+        sql = f"SELECT distinct users.fio FROM users WHERE users.telegram_id = '{telegram_id}' "
+        return await self.execute(sql, fetch=True)
+
+    async def update_user_name(self, telegram_id, new_fio):
+        sql = f"UPDATE users SET fio = '{new_fio}' WHERE users.telegram_id = '{telegram_id}'"
+        return await self.execute(sql, fetch=True)
+
+    async def select_user(self, **kwargs):
+        sql = "SELECT * FROM users WHERE "
+        sql, parameters = self.format_args(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
 
     # async def select_all_users(self):
     #     sql = "SELECT * FROM Users"
     #     return await self.execute(sql, fetch=True)
-
-    # async def select_user(self, **kwargs):
-    #     sql = "SELECT * FROM Users WHERE "
-    #     sql, parameters = self.format_args(sql, parameters=kwargs)
-    #     return await self.execute(sql, *parameters, fetchrow=True)
 
     # async def count_users(self):
     #     sql = "SELECT COUNT(*) FROM Users"

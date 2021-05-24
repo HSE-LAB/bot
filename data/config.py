@@ -6,7 +6,7 @@ load_dotenv()
 
 BOT_TOKEN = str(os.getenv("BOT_TOKEN"))
 admins = [
-    1184689415
+    str(os.getenv("ADMINS"))
 ]
 
 DB_USER= str(os.getenv('POSTGRES_USER'))
