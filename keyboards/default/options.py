@@ -1,4 +1,3 @@
-
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 options = ReplyKeyboardMarkup(
@@ -11,6 +10,35 @@ options = ReplyKeyboardMarkup(
             KeyboardButton(text="🛒 Моя корзина")
         ],
     ],
-    resize_keyboard=True,
+    resize_keyboard=True)
 
-)
+phone = ReplyKeyboardMarkup(
+    keyboard=[
+
+        [
+            KeyboardButton(text="☎️Отправить",
+                           request_contact=True)
+        ]
+    ],
+    resize_keyboard=True,
+    one_time_keyboard=True)
+
+
+location = ReplyKeyboardMarkup(keyboard=[
+
+    [
+        KeyboardButton(text="📍 Отправить",
+                       request_location=True)
+    ]
+],
+    resize_keyboard=True,
+    one_time_keyboard=True)
+
+done = ReplyKeyboardMarkup(keyboard=[
+
+    [
+        KeyboardButton(text='🔥 DONE 🔥 ')
+    ]
+],
+    resize_keyboard=True,
+    one_time_keyboard=True)
