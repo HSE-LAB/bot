@@ -18,8 +18,8 @@ async def show_about(m: types.Message):
     await message.answer(txt)
 
 
-@dp.message_handler(CommandStart(),state=None)
-async def bot_start(message: types.Message,state: FSMContext):
+@dp.message_handler(CommandStart(), state=None)
+async def bot_start(message: types.Message, state: FSMContext):
     await state.update_data(
         {"cart": {}}
     )
