@@ -48,6 +48,7 @@ async def changed_name(msg: types.Message, state: FSMContext):
 
     await msg.answer(text="Нажмите '☎️Отправить, чтобы прислать нам свой номер телефона.",
                      reply_markup=phone)
+
     await UserName.num_settings.set()
 
 
@@ -111,7 +112,9 @@ async def set_addr_settings(message: types.Message, state: FSMContext):
         msg = "Не могу определить адрес по этой локации.\n\n" \
               "Напиши, пожалуйста, адрес доставки:"
         await message.answer(text=msg,
-                             reply_markup=await UserName.address.set())
+                             reply_markup=options)
+        await UserName.address.set()
+
 
     else:
         msg_num = f"Доставим по этому адресу: {address_str}"
@@ -124,7 +127,6 @@ async def set_addr(msg: types.Message, state: FSMContext):
     new_addr = msg.text
     await state.update_data(addr=new_addr)
 
-    await msg.answer(text=f"❗ Ваш адрес: {new_addr}")  # make order
     await msg.answer(text="Скорей нажимай '🔥 DONE 🔥 '",
                      reply_markup=done)
     await UserName.fillin_db.set()
@@ -157,4 +159,7 @@ async def place_new(msg: types.Message, state: FSMContext):
 
     await msg.answer("✨ Done", reply_markup=ReplyKeyboardRemove())  # del keyboard
     await state.finish()
+    await state.update_data(
+        {"cart": {}}
+    )
     await msg.answer("Проверь '🧮 Мои заказы'", reply_markup=options)
