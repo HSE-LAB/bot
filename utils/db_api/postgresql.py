@@ -117,7 +117,7 @@ class Database:
         return await self.execute(sql, fetch=True)
 
     async def select_user_orders(self, telegram_id):
-        sql = f"select orders.date, orders.quantity, orders.product_id, orders.sum, orders.buyer " \
+        sql = f"select distinct orders.date, orders.quantity, orders.product_id, orders.sum, orders.buyer " \
               f"from orders,users " \
               f"where orders.buyer = '{telegram_id}' "
         return await self.execute(sql, fetch=True)
