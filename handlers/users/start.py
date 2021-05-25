@@ -4,8 +4,10 @@ from aiogram.dispatcher import FSMContext
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.types import message
+from aiogram.dispatcher.filters import Command
+from aiogram.types import InputFile
 
-from loader import dp, db
+from loader import dp,bot
 
 from keyboards.default.options import options
 
@@ -20,9 +22,16 @@ async def show_about(m: types.Message):
 
 @dp.message_handler(CommandStart(), state=None)
 async def bot_start(message: types.Message, state: FSMContext):
-    await state.update_data(
-        {"cart": {}}
-    )
-    # await UserStatus.user_cart.set()
+    if not (await state.get_data()).get("cart"):
+        await state.update_data({"cart": {}})
     await message.answer("Добро пожаловать в наш ЗОЖ МАРКЕТ!!!", reply_markup=options)
 
+@dp.message_handler(Command("about"))
+async def bot_start(message: types.Message):
+    txt = "Данный проект был разработан специально для лабы по базам данных\n"\
+        "Спасибо, что протестировали наш проект, надеемся, он вам понравился❤️"
+    photo = InputFile(path_or_bytesio="photos/cat.jpg")  # Local file
+    await bot.send_photo(chat_id=message.from_user.id,
+                         photo=photo,
+                         caption=txt)
+    

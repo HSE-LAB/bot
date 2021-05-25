@@ -7,9 +7,6 @@ from loader import dp
 @dp.message_handler(state=None)
 async def bot_echo(message: types.Message):
     pass
-    # await message.answer(f"Эхо без состояния."
-    #                      f"Сообщение:\n"
-    #                      f"{message.text}")
 
 
 # Эхо хендлер, куда летят ВСЕ сообщения с указанным состоянием
