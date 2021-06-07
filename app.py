@@ -11,6 +11,7 @@ async def on_startup(dispatcher):
     # Уведомляет про запуск
     logging.info("Создаем подключение к базе данных")
     await db.create()
+    
 
     # await db.drop_products()
 
