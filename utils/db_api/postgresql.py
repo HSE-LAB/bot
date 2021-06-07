@@ -56,8 +56,7 @@ class Database:
     async def create_table_users(self):
         sql = """
         CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        telegram_id BIGINT NOT NULL UNIQUE,
+        telegram_id BIGINT NOT NULL UNIQUE PRIMARY KEY,  
         fio VARCHAR(255) NOT NULL,
         address VARCHAR(255) NOT NULL,
         phone VARCHAR(255) NOT NULL);
@@ -77,6 +76,7 @@ class Database:
         INSERT INTO products (flavour, price, name, img_link,category) VALUES('Персик',50,'Протеиновый батончик','https://fitbar.ru/images/uploaded/article/5dfa1d92c8542.jpg','Снеки');
         INSERT INTO products (flavour, price, name,img_link, category) VALUES('Ваниль',500,'Протеиновый коктель','https://builderbody.ru/wp-content/uploads/2015/09/51.jpg','Напитки');
         INSERT INTO products (flavour, price, name,img_link, category) VALUES('Клубника',70,'Пастила','https://productplanet.ru/wp-content/uploads/2019/02/pastila-anons.jpg','Снеки');  
+        CREATE INDEX category_index ON products (category);
         """
         await self.execute(sql, execute=True)
 
@@ -135,20 +135,29 @@ class Database:
         sql, parameters = self.format_args(sql, parameters=kwargs)
         return await self.execute(sql, *parameters, fetchrow=True)
 
-    # async def select_all_users(self):
-    #     sql = "SELECT * FROM Users"
-    #     return await self.execute(sql, fetch=True)
+    async def delete_order_by_date(self, order_date):
+        await self.execute(f"DELETE FROM orders WHERE orders.date = '{order_date}';", execute=True)
 
-    # async def count_users(self):
-    #     sql = "SELECT COUNT(*) FROM Users"
-    #     return await self.execute(sql, fetchval=True)
-
-    # async def update_user_username(self, username, telegram_id):
-    #     sql = "UPDATE Users SET username=$1 WHERE telegram_id=$2"
-    #     return await self.execute(sql, username, telegram_id, execute=True)
-
-    # async def delete_users(self):
-    #     await self.execute("DELETE FROM Users WHERE TRUE", execute=True)
+    async def delete_all_user_orders(self, telegram_id):
+        await self.execute(f"DELETE FROM orders WHERE buyer = '{telegram_id}';", execute=True)
 
     async def drop_products(self):
         await self.execute("DROP TABLE products", execute=True)
+
+    async def drop_users(self):
+        await self.execute("DROP TABLE users", execute=True)
+
+    async def drop_orders(self):
+        await self.execute("DROP TABLE orders", execute=True)
+
+    async def drop_all(self):
+        await self.execute("DROP TABLE orders", execute=True)
+        await self.execute("DROP TABLE users", execute=True)
+        await self.execute("DROP TABLE products", execute=True)
+
+    async def delete_database(self):
+        await self.execute(f"DROP DATABASE {self.dbname}")
+        del self
+
+
+# Все функции должны быть реализованы как хранимые процедуры. 
