@@ -6,7 +6,7 @@ from loader import dp, db
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from keyboards.inline.options import show_categories_buttons, make_order
+from keyboards.inline.options import show_categories_buttons, make_order, delete_all_orders
 
 
 @dp.message_handler(Text(equals="🔍 Каталог"))
@@ -48,7 +48,15 @@ async def show_orders(message: Message):
         order += f'USER: {buyer_name}\n' \
                  f'{count}. 📅: {date} | 🛒: {product} | 💣: {product_flover} | 🛍️: {quantity} | 💰:{ord_sum}\n'
         count += 1
-    await message.answer(text=order)
+    # await message.answer(text=order)
+    await message.answer(text=order,
+                         reply_markup=await delete_all_orders())
+
+
+@dp.callback_query_handler(delete_order_callback.filter(delete="delete"))
+async def delete_all_ords(call: CallbackQuery):
+    await db.delete_all_user_orders(call.from_user.id)
+    await call.message.answer("✨ Done")
 
 
 @dp.message_handler(Text(equals="🛒 Моя корзина"))
