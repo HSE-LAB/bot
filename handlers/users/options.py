@@ -7,6 +7,7 @@ from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from keyboards.inline.options import show_categories_buttons, make_order, delete_all_orders
+from keyboards.inline.callback_datas import delete_order_callback
 
 
 @dp.message_handler(Text(equals="🔍 Каталог"))
@@ -55,6 +56,16 @@ async def show_orders(message: Message):
 
 @dp.callback_query_handler(delete_order_callback.filter(delete="delete"))
 async def delete_all_ords(call: CallbackQuery):
+    orders = [
+        dict(date=item['date'], quantity=item['quantity'], product_id=item['product_id'],
+             sum=item['sum'], buyer=item['buyer'])
+        for item in await db.select_user_orders(telegram_id=call.from_user.id)]
+
+    if not orders:
+        await call.message.answer(text="Ты еще не заказывал наши полезнейшие продукты 😱\n\n"
+                                  "Нажми на '🔍 Каталог' в нижней панели, чтобы посмотреть наши товары😉")
+        return
+
     await db.delete_all_user_orders(call.from_user.id)
     await call.message.answer("✨ Done")
 
