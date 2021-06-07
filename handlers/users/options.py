@@ -1,7 +1,7 @@
 import logging
 
 import asyncpg
-
+from aiogram.types import CallbackQuery
 from loader import dp, db
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext

@@ -50,19 +50,6 @@ class Database:
         product_id INT NOT NULL,
         sum INT NOT NULL,CHECK(sum >= 0),
         buyer INT NOT NULL,CHECK(buyer >= 0));
-
-        -- Создание триггерной функции  
-        CREATE FUNCTION trigger_for_date() RETURNS trigger AS $trigger_for_date$
-            BEGIN
-            NEW.date = nvl(NEW.date, current_date);
-            return NEW;
-        END;
-        $trigger_for_date$ LANGUAGE  plpgsql;
-        
-        -- Создание триггера
-        CREATE TRIGGER trigger_date
-        BEFORE INSERT ON orders FOR EACH ROW
-        EXECUTE PROCEDURE trigger_for_date()
         """
         await self.execute(sql, execute=True)
 
@@ -73,6 +60,17 @@ class Database:
         fio VARCHAR(255) NOT NULL,
         address VARCHAR(255) NOT NULL,
         phone VARCHAR(255) NOT NULL);
+        CREATE FUNCTION trigger_for_name() RETURNS trigger AS $trigger_for_name$
+            BEGIN
+            NEW.fio = COALESCE(NEW.fio, 'user');
+            return NEW;
+        END;
+        $trigger_for_name$ LANGUAGE  plpgsql;
+        
+        -- Создание триггера
+        CREATE TRIGGER trigger_name
+        BEFORE INSERT ON users FOR EACH ROW
+        EXECUTE PROCEDURE trigger_for_name()
         """
         await self.execute(sql, execute=True)
 

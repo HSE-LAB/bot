@@ -48,7 +48,7 @@ async def process_user_info(data):
 async def delete_all_orders():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="🗑️ Удалить все заказы️", callback_data="delete")
+            InlineKeyboardButton(text="🗑️ Удалить все заказы️", callback_data="delete:delete")
         ],
     ])
 
