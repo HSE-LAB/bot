@@ -50,6 +50,19 @@ class Database:
         product_id INT NOT NULL,
         sum INT NOT NULL,CHECK(sum >= 0),
         buyer INT NOT NULL,CHECK(buyer >= 0));
+
+        -- Создание триггерной функции  
+        CREATE FUNCTION trigger_for_date() RETURNS trigger AS $trigger_for_date$
+            BEGIN
+            NEW.date = nvl(NEW.date, current_date);
+            return NEW;
+        END;
+        $trigger_for_date$ LANGUAGE  plpgsql;
+        
+        -- Создание триггера
+        CREATE TRIGGER trigger_date
+        BEFORE INSERT ON orders FOR EACH ROW
+        EXECUTE PROCEDURE trigger_for_date()
         """
         await self.execute(sql, execute=True)
 
